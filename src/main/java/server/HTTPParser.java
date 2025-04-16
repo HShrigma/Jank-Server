@@ -13,11 +13,15 @@ public class HTTPParser {
     public static String GetResponse200(String message) {
         return "HTTP/1.1 200 OK\r\n\r\n" + message;
     }
-
+    public static String GetResponse400() {
+        return "HTTP/1.1 400 Bad Request\r\n\r\n";
+    }
     public static String GetResponse404() {
         return "HTTP/1.1 404 Not Found\r\n\r\n";
     }
-
+    public static String GetResponse405() {
+        return "HTTP/1.1 405 Method Not Allowed\r\n\r\n";
+    }
     public static String GetResponse500() {
         return "HTTP/1.1 500 Internal Server Error\r\n\r\n";
     }
