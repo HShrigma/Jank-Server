@@ -2,33 +2,41 @@ package server;
 
 import java.io.*;
 import java.net.*;
-
-import server.*;
+import java.util.concurrent.*;
 
 public class JankServer {
+
+    private static final int MAX_REQUESTS = 2;
+    private static final int THREAD_POOL_SIZE = 5;
+    private static int requestCount = 0;
     public static void main(String[] args) throws IOException {
         HTTPParser.PrintServerSideInit();
-        int maxRequests = 2;
-        int reqsCount = 0;
-        ServerSocket serverSocket = new ServerSocket(8080);
-        System.out.println("Server started. Try: curl http://localhost:8080");
+        ExecutorService pool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
 
-        while (reqsCount < maxRequests) {
-            // Accept connections on 1 thread using try w/ resources
-            try (Socket clientSocket = serverSocket.accept()) {
-                OutputStream out = clientSocket.getOutputStream();
-                
-                String res = HTTPParser.GetResponse200("Hello from raw Java using HTTPParserClass!\n");
-                
-                out.write(res.getBytes());
-
-            } catch (IOException e) {
-                System.err.println("Request failed: " + e.getMessage());
+        try(ServerSocket serverSocket = new ServerSocket(8080)){
+            System.out.println("Server started. Try: curl http://localhost:8080");
+            while(requestCount < MAX_REQUESTS){
+                Socket clientSocket = serverSocket.accept();
+                pool.execute(()-> handleRequest(clientSocket));
             }
-
-            reqsCount++;
         }
-        System.out.println("Reached max Requests: " + maxRequests + "\nServer is closing");
-        serverSocket.close();
+        finally {
+            pool.shutdown();
+            System.out.println("Reached max requests: " + MAX_REQUESTS + "\nServer is closing");
+        }
+    }
+
+    private static synchronized void handleRequest(Socket clientSocket) {
+        try (OutputStream out = clientSocket.getOutputStream()) {
+            String response = HTTPParser.GetResponse200(
+                "Handled by thread: " + Thread.currentThread().threadId() + "\n"
+            );
+            out.write(response.getBytes());
+            
+            // Thread-safe counter increment
+            requestCount++;
+        } catch (IOException e) {
+            System.err.println("Request failed: " + e.getMessage());
+        }
     }
 }
