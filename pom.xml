@@ -1,28 +1,22 @@
-<!--Specify XML version and encoding, standard-->
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Defining
-project type and providing rules and schema for validating-->
+<!--Defining project type and providing rules and schema for validating-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <!--Specifying
-    POM (Project Object Model) version as 4.0.0, standard-->
+    <!--Specifying POM (Project Object Model) version as 4.0.0, standard-->
     <modelVersion>4.0.0</modelVersion>
 
-    <!--Giving
-    ownership identifiers
-        groupID = Individual/s /Company
-        artifactID = unique project name
-        version = self-explanatory, in this case SNAPSHOT = in development; not commercially released (Java lingo :d)
-    -->
+    <!--Giving ownership identifiers -->
+        <!-- groupID = Individual/s /Company-->
+        <!-- artifactID = unique project name-->
+        <!-- version = self-explanatory, in this case SNAPSHOT = in development; not commercially released (Java lingo :d)-->
     <groupId>com.HShrigma</groupId>
     <artifactId>jank-server</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <!-- Properties - defining constants for compiler and build:
-         compiler.source/target - source/target Java version
-         sourceEncoding - self-explanatory, UTF-8 is standard
-    -->
+    <!-- Properties - defining constants for compiler and build: -->
+    <!--compiler.source/target - source/target Java version-->         
+    <!--sourceEncoding - self-explanatory, UTF-8 is standard-->
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -30,25 +24,23 @@ project type and providing rules and schema for validating-->
     </properties>
     <!-- Build plugins: What actually defines build rules-->
     <build>
-        <!--Lists
-        each plugin-->
+        <!--Lists each plugin-->
         <plugins>
             <!-- Create executable JAR -->
             <plugin>
-                <!-- 
-                this plugin follows similar rules to how the project plugin itself is
-                configured 
-                i.e. group/artifact ID is same, finds plugin by identifiers
-                    In this case, it gets the JAR plugin, to create executable JAR files
-                -->
+                <!--  this plugin follows similar rules to how the project plugin itself is configured --> 
+                <!--i.e. group/artifact ID is same, finds plugin by identifiers-->
+                <!--In this case, it gets the JAR plugin, to create executable JAR files-->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version> <!--gets version for plugin-->
+                <!--gets version for plugin-->
+                <version>3.3.0</version> 
                 <!-- plugin-specific config — each plugin defines its own options here -->
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>server.JankServer</mainClass> <!--Uses the class in project to execute from-->
+                            <!--Uses the class in project to execute from-->
+                            <mainClass>server.JankServer</mainClass> 
                         </manifest>
                     </archive>
                 </configuration>
