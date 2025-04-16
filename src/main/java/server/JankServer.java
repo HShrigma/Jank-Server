@@ -17,7 +17,9 @@ public class JankServer {
         try (ServerSocket serverSocket = new ServerSocket(8080)) {
             System.out.println("Server started. Test with:");
             System.out.println("GET: curl http://localhost:8080");
-            System.out.println("POST: curl -X POST -d 'data' http://localhost:8080");
+            System.out.println("POST: curl -X POST --data-binary @file.dat http://localhost:8080/upload");
+            System.out.println("DOWNLOAD: curl http://localhost:8080/upload/<filename>");
+
             while (requestCount < MAX_REQUESTS) {
                 Socket clientSocket = serverSocket.accept();
                 pool.execute(() -> handleRequest(clientSocket));
@@ -29,16 +31,19 @@ public class JankServer {
     }
 
     private static void handleRequest(Socket clientSocket) {
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                OutputStream out = clientSocket.getOutputStream()) {
-
+        try (
+            InputStream rawIn = clientSocket.getInputStream();
+            BufferedReader in = new BufferedReader(new InputStreamReader(rawIn));
+            OutputStream out = clientSocket.getOutputStream()
+        ) {
             String[] requestParts = HTTPParser.ParseRequest(in);
             if (requestParts == null || requestParts.length < 2) {
                 out.write(HTTPParser.GetResponse400().getBytes());
                 return;
             }
-            //Router class handles request routing
-            Router.routeRequest(requestParts[0], requestParts[1], in, out);
+
+            // Route with both reader (headers) and rawIn (binary body)
+            Router.routeRequest(requestParts[0], requestParts[1], in, rawIn, out);
 
         } catch (Exception e) {
             handleServerError(clientSocket, e);
