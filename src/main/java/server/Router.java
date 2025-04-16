@@ -53,7 +53,8 @@ public class Router {
     }
 
     private static void handleFileDownload(String path, OutputStream out) throws IOException {
-        Path file = Paths.get("src/main/resources/uploads", path.substring(8));
+        String safeName = HTTPParser.sanitizeFilename(path.substring(8));
+        Path file = Paths.get("src/main/resources/uploads", safeName);
         if (!Files.exists(file)) {
             out.write(HTTPParser.GetResponse404().getBytes());
             return;
