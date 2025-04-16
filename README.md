@@ -71,4 +71,14 @@ curl http://localhost:8080/upload/upload_1713200000000.dat -o saved.dat
 - Content-Type and Content-Length headers sent for downloads
 - Only allows 2 total requests before shutting down
   - (for demo purpose, change in ``JankServer.java``, under ``private static final int MAX_REQUESTS = 2;``)
- 
+
+---
+
+ ## 📜 License
+
+Unlicense (public domain)
+
+---
+## Author
+
+Yours truly, HShrigma
