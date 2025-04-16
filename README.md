@@ -39,3 +39,36 @@ java -cp src/main/java server.JankServer
 #or just use Maven lol
 ```
 --- 
+## 🔁 Supported Endpoints
+### GET /
+
+Returns a basic greeting.
+
+```bash
+curl http://localhost:8080/
+```
+
+### POST /upload
+Uploads binary data. You can use any file type.
+```bash
+curl -X POST --data-binary @file.dat http://localhost:8080/upload
+```
+Saved files appear in:
+```css
+src/main/resources/uploads/upload_<timestamp>.dat
+```
+### GET /upload/<filename>
+
+Downloads a previously uploaded file.
+```bash
+curl http://localhost:8080/upload/upload_1713200000000.dat -o saved.dat
+```
+---
+## 💡 Notes
+- Thread-safe request counting using synchronized
+- Thread pool handles multiple simultaneous clients
+- All uploads are stored as .dat files
+- Content-Type and Content-Length headers sent for downloads
+- Only allows 2 total requests before shutting down
+  - (for demo purpose, change in ``JankServer.java``, under ``private static final int MAX_REQUESTS = 2;``)
+ 
