@@ -28,7 +28,7 @@ public class JankServer {
         }
     }
 
-    private static synchronized void handleRequest(Socket clientSocket) {
+    private static void handleRequest(Socket clientSocket) {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 OutputStream out = clientSocket.getOutputStream()) {
 

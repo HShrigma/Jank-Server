@@ -14,6 +14,14 @@ public class HTTPParser {
         return "HTTP/1.1 200 OK\r\n\r\n" + message;
     }
 
+    public static String GetResponse404() {
+        return "HTTP/1.1 404 Not Found\r\n\r\n";
+    }
+
+    public static String GetResponse500() {
+        return "HTTP/1.1 500 Internal Server Error\r\n\r\n";
+    }
+
     // Returns line from Buffered reader split by whitespace characters as vanilla String array
     // Use case in app: Extract HTTP method and path from request 
     public static String[] ParseRequest(BufferedReader in) throws IOException {
