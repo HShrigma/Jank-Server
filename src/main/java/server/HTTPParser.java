@@ -1,10 +1,34 @@
 package server;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
 public class HTTPParser {
-    public static void PrintServerSideInit(){
+    // Default welcome message to print to the host
+    public static void PrintServerSideInit() {
         System.out.println("Starting Server...");
     }
-    public static String GetResponse200(String message){
+
+    // Returns (required) HTTP OK response (status 200) + a message for the user
+    public static String GetResponse200(String message) {
         return "HTTP/1.1 200 OK\r\n\r\n" + message;
-    } 
+    }
+
+    // Returns line from Buffered reader split by whitespace characters as vanilla String array
+    // Use case in app: Extract HTTP method and path from request 
+    public static String[] ParseRequest(BufferedReader in) throws IOException {
+        String reqLine = in.readLine();
+        if (reqLine == null)
+            return null;
+        return reqLine.split(" ");
+    }
+    // Simple POST data reading
+    // Places Buffered Reader values in char[] buffer and returns String from buffer. 
+    public static String ReadPostData(BufferedReader in, int contentLength) throws IOException{
+        char[] buffer = new char[contentLength];
+        in.read(buffer, 0, contentLength);
+
+        return new String(buffer);
+    }
+
 }
