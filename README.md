@@ -1,6 +1,6 @@
 # 🟡 JankServer – Raw Java HTTP Server
 
-A minimal HTTP server built from scratch in pure Java (no frameworks!), supporting:
+A minimal HTTP server built from scratch in pure Java, supporting:
 
 - ✅ GET requests
 - ✅ POST file uploads (`application/octet-stream`)
@@ -28,3 +28,14 @@ A minimal HTTP server built from scratch in pure Java (no frameworks!), supporti
           └── resources/ 
               └── uploads/ <-- Uploaded files go here
 </pre>
+
+---
+
+## 🚀 Run the Server
+
+```bash
+javac src/main/java/server/*.java
+java -cp src/main/java server.JankServer
+#or just use Maven lol
+```
+--- 
