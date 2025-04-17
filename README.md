@@ -25,8 +25,8 @@ A minimal HTTP server built from scratch in pure Java, supporting:
               ├── HTTPParser.java 
               ├── JankServer.java 
               └── Router.java 
-          └── resources/ 
-              └── uploads/ <-- Uploaded files go here
+      └── resources/ 
+          └── uploads/ <-- Uploaded files go here
 </pre>
 
 ---
